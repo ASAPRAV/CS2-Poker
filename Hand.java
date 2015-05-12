@@ -122,7 +122,8 @@ public class Hand implements Comparable {
        {
          return false;
        }
-       //check if it's in order
+       if(!isStraight())
+        return false;
      }
      return true;
    }
@@ -166,8 +167,13 @@ public class Hand implements Comparable {
 
    private boolean isStraight()
    {
-     //check if its in order
-     return false;
+     Collections.sort(hand);
+     for(int i = 0; i<hand.size(); i++)
+     {
+       if(hand.get(i).value+1 != hand.get(i).value)
+        return false;
+     }
+     return true;
    }
 
    private boolean isThree()
