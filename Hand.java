@@ -34,6 +34,15 @@ public class Hand implements Comparable {
    WORST
    */
    public String handValue() {
+     TreeMap <Integer, Integer> tm = new TreeMap <Integer, Integer> ();
+     for(int i = 2; i<=14; i++)
+     {
+       tm.put(i, 0);
+     }
+     for(int i = 0; i<hand.size(); i++)
+     {
+       tm.put(hand.get(i).value, tm.get(hand.get(i).value));
+     }
      if(isRoyalFlush())
       return "Royal Flush";
     else if(isStraightFlush())
@@ -53,20 +62,55 @@ public class Hand implements Comparable {
     else if(isOne())
       return "One Pair";
     else
-      return String.valueOf(highCard());
+    {
+      for(int i = 14; i>=2; i--)
+      {
+        if(tm.get(i) >= 1)
+        {
+          return String.valueOf(i);
+        }
+      }
+    }
    }
 
    private boolean isRoyalFlush()
    {
+     int check1 = 0;
+     int check2 = 0;
+     int check3 = 0;
+     int check4 = 0;
+     int check5 = 0;
      String suit = hand.get(0).suit;
      for(int i = 0; i<hand.size(); i++)
      {
-       if(suit != hand.get(i).suit || hand.get(i).value < 10)
+       if(suit != hand.get(i).suit)
        {
          return false;
        }
+       if(hand.get(i).value == 10)
+       {
+        check1++;
+       }
+       if(hand.get(i).value == 11)
+       {
+        check2++;
+       }
+       if(hand.get(i).value == 12)
+       {
+        check3++;
+       }
+       if(hand.get(i).value == 13)
+       {
+        check4++;
+       }
+       if(hand.get(i).value == 14)
+       {
+        check5++;
+       }
      }
-     return true;
+     if(check1 == 1 && check2 == 1 && check3 == 1 && check4 == 1 && check5 ==1)
+      return true;
+     return false;
    }
 
    private boolean isStraightFlush()
@@ -74,71 +118,93 @@ public class Hand implements Comparable {
      String suit = hand.get(0).suit;
      for(int i = 0; i<hand.size(); i++)
      {
-       if(suit != hand.get(i).suit || hand.get(i).value < 10)
+       if(suit != hand.get(i).suit)
        {
          return false;
        }
+       //check if it's in order
      }
      return true;
    }
 
    private boolean isFour()
    {
-     int val1 = hand.get(0).value;
-     for(int i = 0; i<hand.size(); i++)
+     for(int i = 2; i<=14; i++)
      {
-
+       if(tm.get(i) == 4)
+        return true;
      }
+     return false;
    }
 
    private boolean isFullHouse()
    {
-     int val1 = hand.get(0).value;
-     int check1 = 0;
-     for(int i = 0; i<hand.size(); i++)
+     check1 = 0;
+     check2 = 0;
+     for(int i = 2; i<=14; i++)
      {
-       if(hand.get(i).value == val1)
+       if(tm.get(i) == 3)
         check1++;
+       if(tm.get(i) == 2)
+        check2++;
      }
-     if(check1 != 3 || check1 != 2)
-      return false;
-     else
-     {
-       int val2;
-      for(int i = 0; i<hand.size(); i++)
-      {
-        if(hand.get(i).value != val1)
-          val2 = hand.get(i).value;
-      }
-      int check2 = 0;
-      for(int i = 0; i<hand.size(); i++)
-      {
-        if(val2 == hand.get(i).value)
-          check2++;
-      }
-      if(check2 != 3 || check2 != 2)
-        return false;
-    }
-    return true;
+     if(check1==1 && check2==1)
+      return true;
+    return false;
    }
 
    private boolean isFlush()
-   {return false;}
+   {
+     String suit = hand.get(0).suit;
+     for(int i = 0; i<hand.size(); i++)
+     {
+       if(hand.get(i).suit != suit)
+        return false;
+     }
+     return true;
+   }
 
    private boolean isStraight()
-   {return false;}
+   {
+     //check if its in order
+     return false;
+   }
 
    private boolean isThree()
-   {return false;}
+   {
+     for(int i = 2; i<=14; i++)
+     {
+       if(tm.get(i) == 3)
+        return true;
+     }
+     return false;
+   }
 
    private boolean isTwo()
-   {return false;}
+   {
+     check = 0;
+     for(int i = 0; i<=14; i++)
+     {
+       if(tm.get(i) == 2)
+        check++;
+     }
+     if(check == 2)
+      return true;
+     return false;
+   }
 
    private boolean isOne()
-   {return false;}
-
-   private int highCard()
- {return false; /*figure out what to do about storing high value*/}
+   {
+     check = 0;
+     for(int i = 0; i<=14; i++)
+     {
+       if(tm.get(i) == 2)
+        check++;
+     }
+     if(check == 1)
+      return true;
+     return false;
+   }
 
    public int compareTo(Object x){
       Hand other = (Hand)x;
