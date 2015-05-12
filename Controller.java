@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class Controller
 {
    private static Deck deck;
@@ -28,10 +27,20 @@ public class Controller
 
    public static void dealHands(int x){
       //TODO: Deal x cards to each player
+      for(int i = 0; i<x; i++)
+      {
+        hand1.add(deck.remove());
+        hand2.add(deck.remove());
+      }
    }
 
    public static String findWinner(){
       int result = hand1.compareTo(hand2);
-      return "TODO: Who wins?";
+      if(result > 0)
+        return "Player 1";
+      else if(result < 0)
+        return "Player 2";
+      else
+        return "Tie";
    }
 }
