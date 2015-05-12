@@ -2,6 +2,8 @@ import java.util.*;
 
 public class Hand implements Comparable {
    private ArrayList<Card> hand;
+   private TreeMap <Integer, Integer> tm;
+   private int handVal;
 
    public Hand(){
       hand = new ArrayList<Card>();
@@ -34,42 +36,67 @@ public class Hand implements Comparable {
    WORST
    */
    public String handValue() {
-     TreeMap <Integer, Integer> tm = new TreeMap <Integer, Integer> ();
+     tm = new TreeMap <Integer, Integer> ();
      for(int i = 2; i<=14; i++)
      {
        tm.put(i, 0);
      }
      for(int i = 0; i<hand.size(); i++)
      {
-       tm.put(hand.get(i).value, tm.get(hand.get(i).value));
+       tm.put(hand.get(i).value, tm.get(hand.get(i).value)+1);
      }
      if(isRoyalFlush())
+     {
+      handVal = 100;
       return "Royal Flush";
+     }
     else if(isStraightFlush())
+    {
+      handVal = 99;
       return "Straight Flush";
+    }
     else if(isFour())
+    {
+      handVal = 98;
       return "Four of a Kind";
+    }
     else if(isFullHouse())
+    {
+      handVal = 97;
       return "Full House";
+    }
     else if(isFlush())
+    {
+      handVal = 96;
       return "Flush";
+    }
     else if(isStraight())
+    {
+      handVal = 95;
       return "Straight";
+    }
     else if(isThree())
+    {
+      handVal = 94;
       return "Three of a Kind";
+    }
     else if(isTwo())
+    {
+      handVal = 93;
       return "Two Pair";
+    }
     else if(isOne())
+    {
+      handVal = 92;
       return "One Pair";
+    }
     else
     {
-      for(int i = 14; i>=2; i--)
-      {
-        if(tm.get(i) >= 1)
-        {
-          return String.valueOf(i);
-        }
-      }
+        handVal = highValue();
+        String s = String.valueOf(handVal);
+        if(s == "14")
+          s = "A";
+        return "High Card: " + s;
     }
    }
 
@@ -140,8 +167,8 @@ public class Hand implements Comparable {
 
    private boolean isFullHouse()
    {
-     check1 = 0;
-     check2 = 0;
+     int check1 = 0;
+     int check2 = 0;
      for(int i = 2; i<=14; i++)
      {
        if(tm.get(i) == 3)
@@ -188,8 +215,8 @@ public class Hand implements Comparable {
 
    private boolean isTwo()
    {
-     check = 0;
-     for(int i = 0; i<=14; i++)
+     int check = 0;
+     for(int i = 2; i<=14; i++)
      {
        if(tm.get(i) == 2)
         check++;
@@ -201,8 +228,8 @@ public class Hand implements Comparable {
 
    private boolean isOne()
    {
-     check = 0;
-     for(int i = 0; i<=14; i++)
+     int check = 0;
+     for(int i = 2; i<=14; i++)
      {
        if(tm.get(i) == 2)
         check++;
@@ -212,9 +239,33 @@ public class Hand implements Comparable {
      return false;
    }
 
+   private int highValue()
+   {
+     for(int i = 14; i>=2; i--)
+     {
+       if(tm.get(i) >= 1)
+       {
+         return i;
+       }
+     }
+     return 2;
+   }
+
    public int compareTo(Object x){
       Hand other = (Hand)x;
       //TODO: Compare hands by ordering above; return -1, 1, or 0
-      return -1;
+      if(handVal < other.handVal)
+        return -1;
+      else if(handVal > other.handVal)
+        return 1;
+      else
+      {
+        if(highValue() > other.highValue())
+          return 1;
+        else if(highValue() < other.highValue())
+          return -1;
+        else
+          return 0;
+      }
    }
 }
