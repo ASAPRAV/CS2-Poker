@@ -83,10 +83,44 @@ public class Hand implements Comparable {
    }
 
    private boolean isFour()
-   {return false;}
+   {
+     int val1 = hand.get(0).value;
+     for(int i = 0; i<hand.size(); i++)
+     {
+
+     }
+   }
 
    private boolean isFullHouse()
-   {return false;}
+   {
+     int val1 = hand.get(0).value;
+     int check1 = 0;
+     for(int i = 0; i<hand.size(); i++)
+     {
+       if(hand.get(i).value == val1)
+        check1++;
+     }
+     if(check1 != 3 || check1 != 2)
+      return false;
+     else
+     {
+       int val2;
+      for(int i = 0; i<hand.size(); i++)
+      {
+        if(hand.get(i).value != val1)
+          val2 = hand.get(i).value;
+      }
+      int check2 = 0;
+      for(int i = 0; i<hand.size(); i++)
+      {
+        if(val2 == hand.get(i).value)
+          check2++;
+      }
+      if(check2 != 3 || check2 != 2)
+        return false;
+    }
+    return true;
+   }
 
    private boolean isFlush()
    {return false;}
