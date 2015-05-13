@@ -96,7 +96,7 @@ public class Hand implements Comparable {
         String s = String.valueOf(handVal);
         if(s == "14")
           s = "A";
-        return "High Card: " + s;
+        return "High Card";
     }
    }
 
