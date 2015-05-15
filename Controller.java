@@ -44,3 +44,18 @@ public class Controller
         return "Tie";
    }
 }
+/*
+406-imac24:CS2-Poker 1ravi$ java Controller
+[5s, 7d, Jd, Jc, Qs]
+[4c, 5h, 6h, 7s, Kh]
+Best Hand: One Pair
+Best Hand: High Card
+Player 1
+406-imac24:CS2-Poker 1ravi$ java Controller
+[2c, 3c, 6s, 9h, Jd]
+[3h, 4c, Js, Qc, Ah]
+Best Hand: High Card
+Best Hand: High Card
+Player 2
+406-imac24:CS2-Poker 1ravi$
+*/
